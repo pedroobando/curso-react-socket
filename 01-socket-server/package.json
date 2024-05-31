@@ -1,0 +1,25 @@
+{
+  "name": "01-socket-server",
+  "version": "1.0.0",
+  "description": "Servidor Socket",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "dev4": "nodemon src/index4.js",
+    "dev3": "nodemon src/index3.js",
+    "dev2": "nodemon src/index_2server.js",
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@serialport/parser-readline": "^12.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "serialport": "^12.0.0",
+    "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
