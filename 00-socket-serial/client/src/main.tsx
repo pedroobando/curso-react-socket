@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import './index.css';
+import './css/bootstrap.css';
+
 import { BandNameApp } from './BandNameApp';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
