@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="http://localhost:3001/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <title>Lectura</title>
+  </head>
+  <body class="container">
+    <h1 class="mt-5">Monitor Lectura</h1>
+    <hr />
+    <div class="card" style="width: 18rem">
+      <img src="http://localhost:3001/balanza.webp" class="card-img-top" alt="..." />
+      <div class="card-body">
+        <h5 id="txtTara" class="card-title display-6 text-primary">Card title</h5>
+        <p class="card-text">Demostracion lectura balanza</p>
+        <a href="#" class="btn btn-primary">Continuar</a>
+      </div>
+    </div>
+
+    <script
+      src="http://localhost:3001/socket.io/socket.io.js"
+      integrity="sha512-luMnTJZ7oEchNDZAtQhgjomP1eZefnl82ruTH/3Oj/Yu5qYtwL7+dVRccACS/Snp1lFXq188XFipHKYE75IaQQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      const socket = io('http://localhost:3001');
+
+      //* valor de datos en el formulario
+      const txtTara = document.querySelector('#txtTara');
+
+      socket.on('weight', (data) => {
+        const { weight } = data;
+        console.log(data, weight);
+        txtTara.innerHTML = `lectura: ${weight}`;
+      });
+    </script>
+  </body>
+</html>

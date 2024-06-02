@@ -3,7 +3,10 @@ const cors = require('cors');
 const http = require('http');
 const path = require('path');
 const socketio = require('socket.io');
-const Sockets = require('./sockets');
+const { SerialPort, ReadlineParser } = require('serialport');
+
+// const Sockets = require('./sockets');
+const LSerialPort = require('./serialports');
 
 class Server {
   constructor() {
@@ -14,6 +17,13 @@ class Server {
 
     //* Configuraciones de Sockets
     this.io = socketio(this.server, { cors: { origin: '*' } });
+
+    //* Configuracion de SerialPort
+    this.portSerial = new SerialPort({
+      path: process.env.SERIALPORT,
+      baudRate: +process.env.BAUDRATE,
+    });
+    this.parserSerial = this.portSerial.pipe(new ReadlineParser());
   }
 
   middleware() {
@@ -23,13 +33,17 @@ class Server {
     //* Habilitacion de Cors
     this.app.use(
       cors({
-        origin: ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:3001', '*'],
+        origin: ['http://localhost:5173', `http://localhost:${process.env.SERIALPORT}`, '*'],
       })
     );
   }
 
-  configurarSocket() {
-    new Sockets(this.io);
+  // configurarSocket() {
+  //   new Sockets(this.io);
+  // }
+
+  configurarSerial() {
+    new LSerialPort(this.portSerial, this.parserSerial, this.io);
   }
 
   executed() {
@@ -37,7 +51,10 @@ class Server {
     this.middleware();
 
     //* Configurar Socket
-    this.configurarSocket();
+    // this.configurarSocket();
+
+    //* Configurar SerialPorts
+    this.configurarSerial();
 
     //* Inicializar server
     this.server.listen(this.port, () => {
