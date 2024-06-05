@@ -3,7 +3,13 @@ const cors = require('cors');
 const http = require('http');
 const path = require('path');
 const socketio = require('socket.io');
-const { SerialPort, ReadlineParser } = require('serialport');
+const {
+  SerialPort,
+  ReadlineParser,
+  ByteLengthParser,
+  DelimiterParser,
+  PacketLengthParser,
+} = require('serialport');
 
 // const Sockets = require('./sockets');
 const LSerialPort = require('./serialports');
@@ -23,7 +29,9 @@ class Server {
       path: process.env.SERIALPORT,
       baudRate: +process.env.BAUDRATE,
     });
-    this.parserSerial = this.portSerial.pipe(new ReadlineParser());
+    // this.parserSerial = this.portSerial.pipe(new DelimiterParser({ delimiter: '\r' }));
+    this.parserSerial = this.portSerial.pipe(new ByteLengthParser({ length: 8 }));
+    // this.parserSerial = this.portSerial.pipe(new ReadlineParser());
   }
 
   middleware() {
