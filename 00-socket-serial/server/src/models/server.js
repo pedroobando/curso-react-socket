@@ -33,7 +33,7 @@ class Server {
     //* Habilitacion de Cors
     this.app.use(
       cors({
-        origin: ['http://localhost:5173', `http://localhost:${process.env.SERIALPORT}`, '*'],
+        origin: ['http://localhost:5173', `http://localhost:${this.port}`, '*'],
       })
     );
   }
