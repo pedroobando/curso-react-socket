@@ -10,7 +10,11 @@ export interface ISocket {
 export const SocketContext = createContext<ISocket | null>(null);
 
 export const SocketProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const { socket, online } = useSocket('ws://192.168.1.103:3001/');
+  const wsserver_uri = import.meta.env.VITE_WSSERVER_URI;
+  const wsserver_port = import.meta.env.VITE_WSSERVER_PORT;
+  const wsconecction_uri = `${wsserver_uri}:${wsserver_port}/`;
+
+  const { socket, online } = useSocket(wsconecction_uri);
 
   return <SocketContext.Provider value={{ online, socket }}>{children}</SocketContext.Provider>;
 };

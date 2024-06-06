@@ -39,6 +39,8 @@ class SerialPorts {
 
   //? Manejador de eventos del puerto serial
   serialEvents() {
+    // this.sport.open();
+
     // Indica que se ablio el puerto
     this.sport.on('open', () => {
       console.log('Puerto serial abierto');
@@ -49,10 +51,13 @@ class SerialPorts {
       console.error(err.message);
     });
 
-    this.parser.on('data', (data) => {
+    this.parser.on('data', (dataBites) => {
+      const decoder = new TextDecoder('utf-8');
+      const dataDecode = decoder.decode(dataBites);
+
       try {
-        console.log('read:', data);
-        this.io.emit('weight', { weight: data });
+        console.log('read:', dataDecode);
+        this.io.emit('weight', { weight: dataDecode });
       } catch (error) {
         console.error('Error:', error.message);
       }
